@@ -1,0 +1,25 @@
+---
+version: '3.8'
+services:
+  kowl:
+    image: quay.io/cloudhut/kowl:master
+    restart: unless-stopped
+    ports:
+    - '8090:8080'
+    environment:
+      KAFKA_BROKERS: <ec2 ip address>:9094
+    healthcheck:
+      test: 'wget --quiet --tries=1 --spider http://localhost:8080 || exit 1'
+      start_period: 30s
+  schema-registry-ui:
+    image: landoop/schema-registry-ui:0.9.5
+    container_name: kafka-schema-registry-ui
+    restart: unless-stopped
+    ports:
+      - '8001:8000'
+    environment:
+      SCHEMAREGISTRY_URL: <ec2 ip address>:8081
+      PROXY: 'true'
+    healthcheck:
+      test: 'wget --quiet --tries=1 --spider http://localhost:8000 || exit 1'
+      start_period: 30s
