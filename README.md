@@ -6,9 +6,17 @@ kafka-docker: zookeeper-less setup for AWS
 Tags and releases
 -----------------
 
-Available tags are: (TBD, need to release it, although will likely be a private docker repo like AWS ECR)
+Available tags are:
 
-- `0.0.1`
+- `1.0.0`
+
+The docker image was pushed to https://hub.docker.com/repository/docker/levelsdocker/kafka
+
+You can pull it via
+
+```
+docker pull levelsdocker/kafka:1.0.0
+```
 ---
 
 ## Build the image
