@@ -1,0 +1,24 @@
+
+name: Create docker image and upload it to AWS ECR
+on:
+  push:
+    branches:
+      - "master"
+jobs:
+  build:
+    name: Create and upload docker image
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Build the Docker image
+        run:  docker build --build-arg kafka_version=2.8.0 --build-arg scala_version=2.13 --build-arg build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") -t levelsdocker/kafka:1.0.0
+      - name: Docker Push
+        run: docker push levelsdocker/kafka:1.0.0
+
+
